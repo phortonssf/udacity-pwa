@@ -11,12 +11,11 @@ export default function IndexController(container) {
     this._registerServiceWorker();
 }
 
-IndexController.prototype._registerServiceWorker = function() {
+IndexController.prototype._registerServiceWorker = () => {
     if (!navigator.serviceWorker) return
     navigator.serviceWorker.register('/sw.js')
-        .then(reg => console.log('worked')
-            .catch(err => console.log('failed'))
-        )
+        .then(reg => console.log('worked'))
+        .catch(err => console.log('failed'))
 
 }
 
