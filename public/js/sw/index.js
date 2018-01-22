@@ -1,6 +1,6 @@
 //Servicre worker Install event
 self.addEventListener('install', event => {
-    var urlsToCache = [
+    let urlsToCache = [
         '/',
         'js/main.js',
         'css/main.css',
@@ -18,6 +18,5 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', function(event) {
-    // Leave this blank for now.
-    // We'll get to this in the next task.
+
 });
