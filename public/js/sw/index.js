@@ -12,11 +12,20 @@ self.addEventListener('install', event => {
     event.waitUntil(
         // TODO: open a cache named 'wittr-static-v1'
         caches.open('wittr-static-v1')
-        .then(cache => cache.addAll(urlsToCache))
         // Add cache the urls from urlsToCache
+        .then(cache => cache.addAll(urlsToCache))
+
     );
 });
 
-self.addEventListener('fetch', function(event) {
-
+self.addEventListener('fetch', event => {
+    //Respond to event
+    event.respondWith(
+        caches.match(event.request)
+        .then(res => {
+            if (res) return res
+            return event.request
+        })
+        .catch(err => new Response('Uh oh, that totally failed.'))
+    )
 });
