@@ -11,7 +11,7 @@ self.addEventListener('install', event => {
     //Wait for successful cache 
     event.waitUntil(
         // TODO: open a cache named 'wittr-static-v1'
-        caches.open('wittr-static-v1')
+        caches.open('wittr-static-v2')
         // Add cache the urls from urlsToCache
         .then(cache => cache.addAll(urlsToCache))
 
@@ -23,8 +23,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(
         caches.match(event.request)
         .then(res => {
-            if (res) return res
-            return event.request
+            return res || fetch(event.request);
         })
         .catch(err => new Response('Uh oh, that totally failed.'))
     )
