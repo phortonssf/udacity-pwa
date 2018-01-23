@@ -18,6 +18,12 @@ self.addEventListener('install', event => {
     );
 });
 
+self.addEventListener('activate', event => {
+    event.waitUntil(
+        caches.delete('wittr-static-v1')
+    )
+})
+
 self.addEventListener('fetch', event => {
     //Respond to event
     event.respondWith(
