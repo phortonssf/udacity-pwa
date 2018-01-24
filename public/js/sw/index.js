@@ -1,3 +1,4 @@
+const staticCache = 'wittr-static-v7';
 //Servicre worker Install event
 self.addEventListener('install', event => {
     let urlsToCache = [
@@ -11,7 +12,7 @@ self.addEventListener('install', event => {
     //Wait for successful cache 
     event.waitUntil(
         // TODO: open a cache named 'wittr-static-v1'
-        caches.open('wittr-static-v2')
+        caches.open(staticCache)
         // Add cache the urls from urlsToCache
         .then(cache => cache.addAll(urlsToCache))
 
@@ -20,7 +21,16 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
     event.waitUntil(
-        caches.delete('wittr-static-v1')
+        caches.keys()
+        .then(cacheNames => {
+            return Promise.all(
+                cacheNames.filter(cacheName => {
+                    return cacheName.startsWith('wittr-') &&
+                        cacheName !== staticCache
+                })
+                .map(cacheName => caches.delete(cacheName))
+            )
+        })
     )
 })
 
